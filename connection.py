@@ -52,25 +52,30 @@ def run_host(host: Host, recv_conn: Connection, send_conn: Connection):
 
     connection = connect(host)
     context = Context()
-    while True:
-        cmd = recv_conn.recv().strip().split()
-        if len(cmd) == 0:
-            pass
-        elif cmd[0] == "exit":
-            send_conn.send("")
-            break
-        elif cmd[0] == "cd":
-            path = cmd[1]
-            if os.path.isabs(path):
-                context.path = path
+    exited = False
+    while not exited:
+        # TODO(zhuzilin) support multiline command
+        cmds = recv_conn.recv().strip().split("\n")
+        for cmd in cmds:
+            cmd = cmd.strip().split()
+            if len(cmd) == 0:
+                pass
+            elif cmd[0] == "exit":
+                send_conn.send("")
+                exited = True
+                break
+            elif cmd[0] == "cd":
+                path = cmd[1]
+                if os.path.isabs(path):
+                    context.path = path
+                else:
+                    context.path = os.path.join(context.path, path)
             else:
-                context.path = os.path.join(context.path, path)
-        else:
-            try:
-                with connection.cd(context.path):
-                    result = connection.run(" ".join(cmd), hide=True)
-                    print_format(result.stdout, host)
-            except:  # noqa: E722
-                print_format(f"Failed to execute cmd {cmd}", host)
+                try:
+                    with connection.cd(context.path):
+                        result = connection.run(" ".join(cmd), hide=True)
+                        print_format(result.stdout, host)
+                except:  # noqa: E722
+                    print_format(f"Failed to execute cmd {cmd}", host)
         send_conn.send("")
     connection.close()

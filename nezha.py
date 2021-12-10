@@ -26,8 +26,9 @@ from config_parser import parse_host_config
 
 
 parser = argparse.ArgumentParser(description="Parse the config for NeZha")
-parser.add_argument("--host_config", type=str, required=True)
-parser.add_argument("--repl", action="store_true")
+parser.add_argument("-H", "--host_config", type=str, required=True)
+parser.add_argument("-r", "--repl", action="store_true")
+parser.add_argument("--file", type=str)
 parser.add_argument("--cmd", type=str)
 
 
@@ -63,10 +64,24 @@ def main():
             if cmd == "exit":
                 break
     else:
-        if args.cmd is None:
-            raise RuntimeError("Must provide command(--cmd) when REPL is not used.")
-        send_to_all(args.cmd)
-        send_to_all("exit")
+        if args.file is not None:
+            if args.cmd is not None:
+                logging.warning("File argument found. --cmd will be ignored.")
+            with open(args.file, "r") as f:
+                cmd = f.read()
+            send_to_all(cmd)
+            recv_from_all()
+            send_to_all("exit")
+            recv_from_all()
+        elif args.cmd is not None:
+            send_to_all(args.cmd)
+            recv_from_all()
+            send_to_all("exit")
+            recv_from_all()
+        else:
+            raise RuntimeError(
+                "Must provide command(--cmd) or command file(--file) when REPL is not used."
+            )
 
     for p in processes:
         p.join()
