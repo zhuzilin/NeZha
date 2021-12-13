@@ -20,8 +20,9 @@
 from setuptools import setup
 
 setup(
-    name="nezha",
+    name="nezha-ssh",
     version="0.1.0",
+    license="MIT",
     description="Organizing ssh servers in one shell.",
     author="zhuzilin",
     author_email="zhuzilinallen@gmail.com",

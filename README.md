@@ -4,6 +4,12 @@
 
 NeZha is built upon [Fabric](https://github.com/fabric/fabric).
 
+## Installation
+
+```bash
+pip3 install nezha-ssh
+```
+
 ## Usage
 
 NeZha will simultaneously connect the ssh servers you configed and run command on all of them.
