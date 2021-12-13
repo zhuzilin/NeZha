@@ -26,7 +26,11 @@ def parse_host_config(filename):
     with open(filename, "r") as f:
         host = None
         for line in f:
-            segments = line.strip().split()
+            line = line.strip()
+            # Skip empty line or comment.
+            if len(line) == 0 or line[0] == "#":
+                continue
+            segments = line.split()
             if len(segments) == 0:
                 continue
             elif len(segments) != 2:
