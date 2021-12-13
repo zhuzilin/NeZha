@@ -23,8 +23,8 @@ from multiprocessing import log_to_stderr
 from multiprocessing.connection import Connection
 import fabric
 
-from context import Context
-from host import Host
+from nezha.context import Context
+from nezha.host import Host
 
 
 def connect(host: Host):

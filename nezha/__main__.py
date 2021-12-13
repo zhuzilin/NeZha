@@ -21,8 +21,8 @@ import argparse
 import logging
 from multiprocessing import Pipe, Process
 
-from connection import run_host
-from config_parser import parse_host_config
+from nezha.connection import run_host
+from nezha.config_parser import parse_host_config
 
 
 parser = argparse.ArgumentParser(description="Parse the config for NeZha")

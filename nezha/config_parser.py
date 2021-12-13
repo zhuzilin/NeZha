@@ -18,7 +18,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import logging
-from host import Host
+from nezha.host import Host
 
 
 def parse_host_config(filename):
@@ -51,7 +51,7 @@ def parse_host_config(filename):
             else:
                 if host is None:
                     raise RuntimeError(f"Must define host before setting value: {line}")
-                if segments[0].lower() == "ip":
+                if segments[0].lower() == "hostname":
                     host.ip = segments[1]
                 elif segments[0].lower() == "user":
                     host.user = segments[1]
