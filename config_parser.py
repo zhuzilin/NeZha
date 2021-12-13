@@ -42,8 +42,8 @@ def parse_host_config(filename):
                             f"Host {host.name}'s user not set. Will use root as default."
                         )
                         host.user = "root"
-                    if host.hostname is None:
-                        raise RuntimeError(f"Host {host.name}'s hostname not set.")
+                    if host.ip is None:
+                        raise RuntimeError(f"Host {host.name}'s ip not set.")
                     hosts.append(host)
 
                 name = segments[1]
@@ -51,8 +51,8 @@ def parse_host_config(filename):
             else:
                 if host is None:
                     raise RuntimeError(f"Must define host before setting value: {line}")
-                if segments[0].lower() == "hostname":
-                    host.hostname = segments[1]
+                if segments[0].lower() == "ip":
+                    host.ip = segments[1]
                 elif segments[0].lower() == "user":
                     host.user = segments[1]
                 elif segments[0].lower() == "port":

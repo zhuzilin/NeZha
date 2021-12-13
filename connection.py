@@ -28,7 +28,7 @@ from host import Host
 
 
 def connect(host: Host):
-    connection = fabric.Connection(host.hostname, host.port, host.port)
+    connection = fabric.Connection(host.ip, host.port, host.port)
     logging.info(f"Connect to host {host}")
     return connection
 
@@ -73,8 +73,7 @@ def run_host(host: Host, recv_conn: Connection, send_conn: Connection):
             else:
                 try:
                     with connection.cd(context.path):
-                        result = connection.run(" ".join(cmd), hide=True)
-                        print_format(result.stdout, host)
+                        connection.run(" ".join(cmd), hide=False)
                 except:  # noqa: E722
                     print_format(f"Failed to execute cmd {cmd}", host)
         send_conn.send("")

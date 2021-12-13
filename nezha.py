@@ -49,8 +49,8 @@ def main():
 
     def send_to_all(cmd):
         for i, conn in enumerate(send_conns):
-            # substitue "{NEZHA_ID}" with the process id
-            cmd_i = cmd.format(NEZHA_ID=i)
+            # Substitue "{NEZHA_ID}" with the process id, "{NEZHA_IP}" with its IP.
+            cmd_i = cmd.format(NEZHA_ID=i, NEZHA_IP=hosts[i].ip)
             conn.send(cmd_i)
 
     def recv_from_all():

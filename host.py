@@ -22,11 +22,11 @@ class Host:
     def __init__(self, name):
         self.name = name
         self.user = None
-        self.hostname = None
+        self.ip = None
         self.port = None
 
     def __str__(self) -> str:
-        return f"{self.name}[{self.user}@{self.hostname}]"
+        return f"{self.name}[{self.user}@{self.ip}]"
 
     def __repr__(self) -> str:
         return str(self)
