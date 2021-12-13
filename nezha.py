@@ -47,9 +47,11 @@ def main():
         send_conns.append(parent_send_conn)
         recv_conns.append(parent_recv_conn)
 
-    def send_to_all(s):
-        for conn in send_conns:
-            conn.send(s)
+    def send_to_all(cmd):
+        for i, conn in enumerate(send_conns):
+            # substitue "{NEZHA_ID}" with the process id
+            cmd_i = cmd.format(NEZHA_ID=i)
+            conn.send(cmd_i)
 
     def recv_from_all():
         for conn in recv_conns:
